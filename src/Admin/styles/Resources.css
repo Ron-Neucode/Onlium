@@ -1,0 +1,390 @@
+.resources-admin {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.resources-header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-bottom: 24px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.header-left p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.post-link-btn {
+  padding: 10px 20px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.post-link-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+.resources-form-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.resources-form-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+.form-row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+.form-group.large {
+  flex: 2;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.form-group label .optional {
+  font-weight: 400;
+  color: #94a3b8;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-select:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.category-btn {
+  padding: 10px 20px;
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.category-btn.active {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+}
+
+.helper-text {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 6px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.cancel-btn {
+  padding: 12px 24px;
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+  background: #fff;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  background: #2563eb;
+}
+
+.resources-list {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.empty-state {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.resource-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  background: #f0fdf4;
+  color: #166534;
+  font-size: 13px;
+}
+
+.resource-notice button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.resource-notice--info {
+  display: block;
+  margin: 8px 0 0;
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.resource-form-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.resource-form-heading h2 {
+  margin: 0;
+}
+
+.resources-form-card .form-group {
+  margin-bottom: 18px;
+}
+
+.resource-type-picker {
+  max-width: 300px;
+}
+
+.resource-error {
+  color: #b91c1c;
+}
+
+.resource-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.resource-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.resource-stat strong {
+  color: #1e40af;
+  font-size: 24px;
+}
+
+.resource-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.resource-toolbar label {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.resource-toolbar .form-select {
+  width: auto;
+  min-width: 150px;
+}
+
+.resource-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.resource-table th,
+.resource-table td {
+  padding: 13px 15px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.resource-table th {
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.resource-table td a {
+  display: inline-block;
+  max-width: 260px;
+  overflow: hidden;
+  color: #2563eb;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resource-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.resource-delete-btn {
+  padding: 6px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 20px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .resources-header,
+  .resource-form-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .resources-header {
+    padding: 20px;
+  }
+
+  .resource-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .resource-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}

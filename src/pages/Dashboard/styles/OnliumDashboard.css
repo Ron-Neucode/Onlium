@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial;
+  background: #f7f9fc;
+  color: #0b1220;
+}
+
+.portal {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  background: #f7f9fc;
+}
+
+/* center the main content and limit width like the reference */
+.content > * {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* layout for the lower section: main column + right column */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* generic card tweaks (cards live in other CSS files but this sets consistent defaults) */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15,23,42,0.06);
+  box-shadow: 0 4px 20px rgba(15,23,42,0.06);
+  padding: 22px;
+}
+
+/* helper: subtle section heading used across dashboard */
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* small responsive adjustments */
+@media (max-width: 980px) {
+  .bottom-grid { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .quick-grid { grid-template-columns: 1fr; }
+  .content { padding: 18px; }
+}
+
+@media (max-width: 768px) {
+  .portal {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: unset;
+    display: none;
+  }
+
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}

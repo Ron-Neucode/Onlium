@@ -1,0 +1,37 @@
+.appt-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.appt-item:last-child {
+  border-bottom: none;
+}
+
+.appt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.appt-dot.confirmed { background: #1d9e75; }
+.appt-dot.pending   { background: #ef9f27; }
+
+.appt-label {
+  font-size: 12.5px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.appt-status {
+  font-size: 10.5px;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.appt-status.confirmed { color: #1d9e75; }
+.appt-status.pending   { color: #ba7517; }

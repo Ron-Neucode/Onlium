@@ -1,0 +1,94 @@
+.welcome-banner {
+  background: linear-gradient(135deg, #1e5bb5 0%, #2563eb 50%, #3b82f6 100%);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+}
+
+.welcome-banner .wb-left {
+  flex: 1 1 60%;
+}
+
+.welcome-banner h2 {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: 'Sora', sans-serif;
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+
+.welcome-banner h2 span {
+  font-weight: 700;
+}
+
+.welcome-banner p {
+  font-size: 14px;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+.welcome-banner .progress-wrap {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.welcome-banner .progress {
+  height: 10px;
+  background: rgba(255,255,255,0.14);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.welcome-banner .progress > i {
+  display: block;
+  height: 100%;
+  width: 38%;
+  background: #ffffff;
+  border-radius: 999px;
+}
+
+.welcome-banner .wb-right {
+  flex: 0 0 240px;
+  text-align: right;
+}
+
+.welcome-banner .wb-right .small {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.welcome-banner .step-badge {
+  display: inline-block;
+  margin-left: 10px;
+  background: rgba(255,255,255,0.18);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .welcome-banner {
+    flex-direction: column;
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .welcome-banner h2 {
+    font-size: 18px;
+  }
+
+  .welcome-banner .wb-right {
+    flex: unset;
+    text-align: left;
+  }
+}

@@ -1,0 +1,99 @@
+.register-page {
+  display: flex;
+  min-height: 100vh;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: #f6f7fb;
+}
+
+.register-left {
+  flex: 1;
+  max-width: 480px;
+}
+
+.register-left__title {
+  font-size: 1.6rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.register-card-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-card {
+  width: 420px;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(31,41,55,0.08);
+}
+
+.register-card__title {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+}
+
+.register-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.register-tab {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.register-tab--active {
+  background: #0ea5a4;
+  color: white;
+}
+
+.register-blob {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  opacity: 0.08;
+}
+
+.register-blob--1 { background: #60a5fa; left: 10px; top: 10px; }
+.register-blob--2 { background: #a78bfa; right: 10px; bottom: 10px; }
+
+.stair-deco { display:flex; gap:8px; margin-top:12px }
+.stair-deco__step { width:20px; height:8px; background:#e6edf3; border-radius:4px }
+
+@media (max-width: 768px) {
+  .register-page {
+    flex-direction: column;
+    padding: 24px 16px;
+    gap: 1rem;
+  }
+
+  .register-left {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .register-left__title {
+    font-size: 1.2rem;
+  }
+
+  .stair-deco {
+    justify-content: center;
+  }
+
+  .register-card {
+    width: 100%;
+    padding: 1.5rem;
+  }
+}

@@ -1,0 +1,232 @@
+.appointment-student {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+.appointment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.hold-message {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  padding-left: 24px;
+  position: relative;
+}
+
+.hold-message::before {
+  content: "•";
+  position: absolute;
+  left: 8px;
+  color: #1e293b;
+}
+
+.slots-card {
+  background: #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  border: 3px solid #3b82f6;
+}
+
+.slots-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 20px 0;
+}
+
+.slots-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.slot-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #9ca3af;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.slot-item:last-child {
+  border-bottom: none;
+}
+
+.slot-item:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.slot-item.selected {
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+}
+
+.slot-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.slot-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slot-day {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.slot-time {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.slot-status {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status-available {
+  color: #16a34a;
+}
+
+.status-almost-full {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.status-full {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.book-slot-btn {
+  width: 280px;
+  padding: 12px 24px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  align-self: center;
+  margin-top: 8px;
+}
+
+.book-slot-btn:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.book-slot-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.status-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #1e293b;
+}
+
+.status-text {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+}
+
+.status-label {
+  font-weight: 600;
+  color: #ea580c;
+}
+
+.status-value {
+  color: #ea580c;
+  font-weight: 500;
+}
+
+.status-description {
+  font-size: 13px;
+  color: #1e293b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.payment-card {
+  background: #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #1e293b;
+}
+
+.payment-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 16px 0;
+}
+
+.payment-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.payment-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.payment-status {
+  padding: 4px 12px;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  border: 1px solid #16a34a;
+}
+
+@media (max-width: 768px) {
+  .appointment-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .book-slot-btn {
+    width: 100%;
+  }
+}
