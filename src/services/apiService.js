@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "./apiConfig.js";
+import { authService } from "./authService.js";
 
 async function getApiErrorMessage(response, fallback) {
   const responseText = await response.text();
@@ -32,7 +33,7 @@ export const apiService = {
   },
 
   getAuthHeaders() {
-    const token = localStorage.getItem("onlium_token");
+    const token = authService.getToken();
     return token
       ? {
           "Content-Type": "application/json",

@@ -1,5 +1,39 @@
 import { API_BASE_URL } from "./apiConfig.js";
 
+const USER_SESSION_KEY = "onlium_current_user";
+const TOKEN_KEY = "onlium_token";
+
+function clearLegacySession() {
+  localStorage.removeItem(USER_SESSION_KEY);
+  localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem("onlium_admin");
+}
+
+function migrateLegacySession() {
+  if (sessionStorage.getItem(USER_SESSION_KEY) && sessionStorage.getItem(TOKEN_KEY)) {
+    clearLegacySession();
+    return;
+  }
+
+  const legacyUser = localStorage.getItem(USER_SESSION_KEY);
+  const legacyToken = localStorage.getItem(TOKEN_KEY);
+  if (!legacyUser && !legacyToken) return;
+
+  try {
+    const user = legacyUser ? JSON.parse(legacyUser) : null;
+    const token = legacyToken || user?.token;
+    if (user && token) {
+      user.token = token;
+      sessionStorage.setItem(USER_SESSION_KEY, JSON.stringify(user));
+      sessionStorage.setItem(TOKEN_KEY, token);
+    }
+  } catch (error) {
+    console.error("Unable to migrate the previous sign-in session.", error);
+  } finally {
+    clearLegacySession();
+  }
+}
+
 export const authService = {
   async login(email, password) {
     const response = await fetch(`${API_BASE_URL}/Auth/login`, {
@@ -99,11 +133,12 @@ export const authService = {
   },
 
   saveToken(token) {
-    localStorage.setItem("onlium_token", token);
+    sessionStorage.setItem(TOKEN_KEY, token);
   },
 
   getToken() {
-    return localStorage.getItem("onlium_token");
+    migrateLegacySession();
+    return sessionStorage.getItem(TOKEN_KEY);
   },
 
   isTokenExpired(token = this.getToken()) {
@@ -121,28 +156,43 @@ export const authService = {
   },
 
   saveUserSession(userData) {
-    localStorage.setItem("onlium_current_user", JSON.stringify(userData));
-    localStorage.removeItem("onlium_admin");
+    sessionStorage.setItem(USER_SESSION_KEY, JSON.stringify(userData));
     if (userData.token) {
       this.saveToken(userData.token);
     }
+    clearLegacySession();
   },
 
   getUserSession() {
-    const user = localStorage.getItem("onlium_current_user");
-    return user ? JSON.parse(user) : null;
+    migrateLegacySession();
+    const user = sessionStorage.getItem(USER_SESSION_KEY);
+    if (!user) return null;
+    try {
+      return JSON.parse(user);
+    } catch (error) {
+      console.error("Unable to read the current sign-in session.", error);
+      this.clearUserSession();
+      return null;
+    }
+  },
+
+  updateUserSession(updates) {
+    const user = this.getUserSession();
+    if (user) {
+      this.saveUserSession({ ...user, ...updates });
+    }
   },
 
   clearUserSession() {
-    localStorage.removeItem("onlium_current_user");
-    localStorage.removeItem("onlium_token");
-    localStorage.removeItem("onlium_admin");
+    sessionStorage.removeItem(USER_SESSION_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    clearLegacySession();
   },
 
   isAuthenticated() {
     const user = this.getUserSession();
     const token = this.getToken();
-    if (!user || !token) return false;
+    if (!user || !token || user.token !== token) return false;
     if (this.isTokenExpired(token)) {
       this.clearUserSession();
       return false;

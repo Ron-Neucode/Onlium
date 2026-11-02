@@ -4,6 +4,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import EditProfileModal from "../Profile/EditProfileModal";
 import { apiService } from "../../services/apiService.js";
+import { authService } from "../../services/authService.js";
 import "./styles/Topbar.css";
 
 export default function Topbar({ onMenuToggle }) {
@@ -20,9 +21,8 @@ export default function Topbar({ onMenuToggle }) {
 
   useEffect(() => {
     const loadUser = () => {
-      const userJson = localStorage.getItem('onlium_current_user');
-      if (userJson) {
-        const user = JSON.parse(userJson);
+      const user = authService.getUserSession();
+      if (user) {
         setCurrentUser(current => ({
           firstName: user.firstName || "",
           lastName: user.lastName || "",
@@ -55,13 +55,12 @@ export default function Topbar({ onMenuToggle }) {
         ]);
         if (!isMounted) return;
 
-        const userJson = localStorage.getItem("onlium_current_user");
-        const user = userJson ? JSON.parse(userJson) : {};
+        const user = authService.getUserSession() || {};
         const studentId = profile.studentIdNumber || "";
         const firstName = profile.firstName || user.firstName || "";
         const lastName = profile.lastName || user.lastName || "";
         delete user.photo;
-        localStorage.setItem("onlium_current_user", JSON.stringify({ ...user, firstName, lastName, studentId }));
+        authService.updateUserSession({ firstName, lastName, studentId });
         setCurrentUser((current) => ({ ...current, firstName, lastName, studentId, photo: null }));
         setStudentProfile(profile);
         setEnrollment(applications[0] || null);
@@ -109,24 +108,21 @@ export default function Topbar({ onMenuToggle }) {
   }, []);
 
   const getInitials = () => {
-    const raw = localStorage.getItem("onlium_current_user");
-    const u = raw ? JSON.parse(raw) : currentUser;
+    const u = authService.getUserSession() || currentUser;
     const first = u.firstName?.charAt(0)?.toUpperCase() || "";
     const last = u.lastName?.charAt(0)?.toUpperCase() || "";
     return first + last || "??";
   };
 
   const getFullName = () => {
-    const raw = localStorage.getItem("onlium_current_user");
-    const u = raw ? JSON.parse(raw) : currentUser;
+    const u = authService.getUserSession() || currentUser;
     if (u.firstName && u.lastName) return `${u.firstName} ${u.lastName}`;
     return u.firstName || u.lastName || "Guest";
   };
 
   const getPhoto = () => {
-    const raw = localStorage.getItem("onlium_current_user");
-    const u = raw ? JSON.parse(raw) : currentUser;
-    return u.photo || null;
+    const u = authService.getUserSession() || currentUser;
+    return currentUser.photo || u.photo || null;
   };
 
   const getStudentId = () => {

@@ -14,6 +14,7 @@ function formatTime(t) {
 export default function AdminAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
@@ -95,6 +96,7 @@ export default function AdminAppointments() {
 
   async function handleDelete(id) {
     if (!confirm("Are you sure you want to cancel this appointment?")) return;
+    setActionLoading(true);
     try {
       await apiService.updateAppointmentStatus(id, "Cancelled");
       setLoading(true);
@@ -102,6 +104,8 @@ export default function AdminAppointments() {
       showToast("Appointment cancelled.", "error");
     } catch (err) {
       showToast(err.message || "Failed to cancel appointment", "error");
+    } finally {
+      setActionLoading(false);
     }
   }
 

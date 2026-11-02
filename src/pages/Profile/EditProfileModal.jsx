@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { apiService } from "../../services/apiService.js";
+import { authService } from "../../services/authService.js";
 import "./styles/EditProfileModal.css";
 
 export default function EditProfileModal({ isOpen, onClose, currentUser, application, profile, onPhotoUpdated, onProfileUpdated }) {
@@ -90,7 +91,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser, applica
         lastName: updatedProfile.lastName,
       };
       delete updated.photo;
-      localStorage.setItem("onlium_current_user", JSON.stringify(updated));
+      authService.saveUserSession(updated);
       onProfileUpdated?.(updatedProfile);
       setForm(current => ({
         ...current,
@@ -128,7 +129,7 @@ export default function EditProfileModal({ isOpen, onClose, currentUser, applica
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("onlium_current_user");
+    authService.clearUserSession();
     window.location.href = "/register/login";
   };
 

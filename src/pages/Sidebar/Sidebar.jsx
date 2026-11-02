@@ -4,6 +4,7 @@ import { NAV_ITEMS } from "../data/navItems";
 import { useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa6";
 import { CiLogout } from "react-icons/ci";
+import { authService } from "../../services/authService.js";
 
 export default function Sidebar({ activeNav, onNavChange, mobileOpen, onMobileClose, hideLogout }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -12,9 +13,8 @@ export default function Sidebar({ activeNav, onNavChange, mobileOpen, onMobileCl
 
   useEffect(() => {
     const load = () => {
-      const raw = localStorage.getItem("onlium_current_user");
-      if (raw) {
-        const u = JSON.parse(raw);
+      const u = authService.getUserSession();
+      if (u) {
         setCurrentUser({ firstName: u.firstName || "", lastName: u.lastName || "", photo: u.photo || null });
       }
     };
@@ -42,7 +42,7 @@ export default function Sidebar({ activeNav, onNavChange, mobileOpen, onMobileCl
   }
 
   function handleLogout() {
-    localStorage.removeItem("onlium_current_user");
+    authService.clearUserSession();
     navigate("/");
   }
 

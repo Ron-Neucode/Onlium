@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { authService } from "../../services/authService.js";
 
 const STUDENT_TYPES = [
   { key: "new", label: "New student", description: "Applying to Onlium for the first time" },
@@ -29,7 +30,7 @@ const REQUIRED_FIELD_LABELS = {
 
 function getInitialDetails() {
   try {
-    const user = JSON.parse(localStorage.getItem("onlium_current_user") || "{}");
+    const user = authService.getUserSession() || {};
     return {
       firstName: user.firstName || "",
       lastName: user.lastName || "",

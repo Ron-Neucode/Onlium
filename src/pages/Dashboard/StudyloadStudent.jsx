@@ -26,7 +26,7 @@ export default function StudyloadStudent() {
   const [error, setError] = useState("");
   const [student] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("onlium_current_user") || "{}");
+      return authService.getUserSession() || {};
     } catch {
       return {};
     }

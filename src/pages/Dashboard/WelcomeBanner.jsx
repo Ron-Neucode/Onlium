@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { apiService } from "../../services/apiService.js";
+import { authService } from "../../services/authService.js";
 import "./styles/WelcomeBanner.css";
 
 export default function WelcomeBanner() {
@@ -9,8 +10,7 @@ export default function WelcomeBanner() {
 
   useEffect(() => {
     let active = true;
-    const userJson = localStorage.getItem("onlium_current_user");
-    const user = userJson ? JSON.parse(userJson) : {};
+    const user = authService.getUserSession() || {};
     setCurrentUser({ firstName: user.firstName || "", lastName: user.lastName || "" });
 
     Promise.all([apiService.getMyApplications(), apiService.getMyStudentProfile()])
