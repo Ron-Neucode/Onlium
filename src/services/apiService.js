@@ -123,6 +123,23 @@ export const apiService = {
     return await response.json();
   },
 
+  async getMyEnrollmentTypeEligibility() {
+    const response = await fetch(`${API_BASE_URL}/Applications/type-eligibility`, {
+      method: "GET",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (response.status === 401) {
+      throw new Error("Your session is invalid or expired. Please sign in again.");
+    }
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to check enrollment eligibility"));
+    }
+
+    return await response.json();
+  },
+
   async getMyStudyLoadSchedules() {
     const response = await fetch(`${API_BASE_URL}/StudentStudyLoadSchedules/mine`, {
       method: "GET",
@@ -822,6 +839,71 @@ export const apiService = {
     return await response.json();
   },
 
+  async getAdminInstructorInvitations() {
+    const response = await fetch(`${API_BASE_URL}/admin/instructor-invitations`, {
+      method: "GET",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to fetch instructor invitations"));
+    }
+
+    return await response.json();
+  },
+
+  async sendInstructorInvitation(data) {
+    const response = await fetch(`${API_BASE_URL}/admin/instructor-invitations`, {
+      method: "POST",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to send instructor invitation"));
+    }
+
+    return await response.json();
+  },
+
+  async revokeInstructorInvitation(id) {
+    const response = await fetch(`${API_BASE_URL}/admin/instructor-invitations/${id}`, {
+      method: "DELETE",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to revoke instructor invitation"));
+    }
+
+    return await response.json();
+  },
+
+  async getInstructorInvitationDetails(token) {
+    const response = await fetch(`${API_BASE_URL}/auth/instructor-invitations/validate`, {
+      method: "POST",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ token }),
+    });
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "This instructor invitation is invalid or expired"));
+    }
+    return await response.json();
+  },
+
+  async completeInstructorInvitation(token, password) {
+    const response = await fetch(`${API_BASE_URL}/auth/instructor-invitations/complete`, {
+      method: "POST",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify({ token, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Unable to set up instructor account"));
+    }
+    return await response.json();
+  },
+
   async approveInstructor(id) {
     const response = await fetch(`${API_BASE_URL}/admin/instructors/${id}/approve`, {
       method: "POST",
@@ -902,6 +984,20 @@ export const apiService = {
     return await response.json();
   },
 
+  async getInstructorAttendanceReport(scheduleId, from, to) {
+    const query = new URLSearchParams({ from, to });
+    const response = await fetch(
+      `${API_BASE_URL}/instructor/classes/${scheduleId}/attendance/report?${query}`,
+      { method: "GET", headers: this.getAuthHeaders() },
+    );
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to load attendance report"));
+    }
+
+    return await response.json();
+  },
+
   async getInstructorAnnouncements() {
     const response = await fetch(`${API_BASE_URL}/instructor/announcements`, {
       method: "GET",
@@ -927,6 +1023,100 @@ export const apiService = {
     }
 
     return await response.json();
+  },
+
+  async updateInstructorAnnouncement(id, data) {
+    const response = await fetch(`${API_BASE_URL}/instructor/announcements/${id}`, {
+      method: "PUT",
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to update class announcement"));
+    }
+
+    return await response.json();
+  },
+
+  async deleteInstructorAnnouncement(id) {
+    const response = await fetch(`${API_BASE_URL}/instructor/announcements/${id}`, {
+      method: "DELETE",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to cancel class announcement"));
+    }
+
+    return await response.json();
+  },
+
+  async getInstructorClassMaterials(scheduleId) {
+    const response = await fetch(`${API_BASE_URL}/instructor/classes/${scheduleId}/materials`, {
+      method: "GET",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to load class materials"));
+    }
+
+    return await response.json();
+  },
+
+  async createInstructorClassMaterial(scheduleId, formData) {
+    const token = authService.getToken();
+    const response = await fetch(`${API_BASE_URL}/instructor/classes/${scheduleId}/materials`, {
+      method: "POST",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to share class material"));
+    }
+
+    return await response.json();
+  },
+
+  async deleteInstructorClassMaterial(id) {
+    const response = await fetch(`${API_BASE_URL}/instructor/materials/${id}`, {
+      method: "DELETE",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to remove class material"));
+    }
+
+    return await response.json();
+  },
+
+  async getStudentClassMaterials() {
+    const response = await fetch(`${API_BASE_URL}/student/class-materials`, {
+      method: "GET",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to load class materials"));
+    }
+
+    return await response.json();
+  },
+
+  async downloadClassMaterial(id) {
+    const response = await fetch(`${API_BASE_URL}/class-materials/${id}/file`, {
+      method: "GET",
+      headers: this.getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+      throw new Error(await getApiErrorMessage(response, "Failed to download class material"));
+    }
+
+    return await response.blob();
   },
 
   async getMyClassAnnouncements() {

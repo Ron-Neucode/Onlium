@@ -3,6 +3,11 @@ import { apiService } from "../../services/apiService.js";
 import Sidebar from "../Sidebar/Sidebar";
 import Topbar from "../Topbar/Topbar";
 
+function formatAnnouncementDate(value) {
+  const [year, month, day] = String(value || "").slice(0, 10).split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString();
+}
+
 export default function ClassAnnouncements() {
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +58,7 @@ export default function ClassAnnouncements() {
                   <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
                     <h2 style={{ margin: 0, fontSize: 17 }}>{item.title}</h2>
                     <time dateTime={item.eventDate} style={{ color: "#64748b", fontSize: 13 }}>
-                      {new Date(item.eventDate).toLocaleDateString()}
+                      {formatAnnouncementDate(item.eventDate)}
                     </time>
                   </div>
                   <p style={{ margin: "7px 0", color: "#2563eb", fontWeight: 700, fontSize: 12 }}>

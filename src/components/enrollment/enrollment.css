@@ -99,6 +99,17 @@
   box-shadow: 0 4px 18px rgba(23, 48, 78, 0.035);
 }
 
+.enrollment-draft-notice {
+  padding: 12px 15px;
+  margin: 0 0 18px;
+  border: 1px solid #c9dbf2;
+  border-radius: 9px;
+  background: #f2f7fd;
+  color: #355477;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 .enrollment-progress__caption {
   display: flex;
   align-items: center;
@@ -297,6 +308,18 @@
   box-shadow: 0 5px 14px rgba(35, 65, 100, 0.07);
 }
 
+.enrollment-type-card:disabled {
+  cursor: not-allowed;
+  transform: none;
+  border-color: #e6ebf1;
+  background: #f7f9fb;
+  box-shadow: none;
+}
+
+.enrollment-type-card:disabled .enrollment-type-card__title {
+  color: #64748b;
+}
+
 .enrollment-type-card--selected {
   border: 1.5px solid #527db1;
   background: #f4f8fd;
@@ -337,6 +360,14 @@
   color: #748398;
   font-size: 11px;
   line-height: 1.5;
+}
+
+.enrollment-type-card__reason {
+  display: block;
+  margin-top: 9px;
+  color: #69788b;
+  font-size: 10px;
+  line-height: 1.45;
 }
 
 .enrollment-form__grid {

@@ -1,0 +1,124 @@
+.student-materials-heading {
+  margin-bottom: 18px;
+}
+
+.student-materials-heading h1 {
+  margin: 0;
+  color: #172033;
+  font-size: 24px;
+}
+
+.student-materials-heading p {
+  margin: 6px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.student-materials-list {
+  display: grid;
+  gap: 12px;
+}
+
+.student-material-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 17px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.student-material-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border-radius: 10px;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.student-material-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.student-material-copy > strong {
+  color: #1e293b;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.student-material-class {
+  margin: 4px 0 6px;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.student-material-description {
+  margin: 0 0 7px;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.student-material-copy small {
+  color: #8491a4;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.student-material-action {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid #dbe6fa;
+  border-radius: 8px;
+  color: #2857b0;
+  background: #f5f8ff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.student-material-action:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+
+.student-materials-empty {
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #64748b;
+  background: #fff;
+}
+
+.student-materials-error {
+  margin-bottom: 14px;
+  padding: 14px;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+@media (max-width: 600px) {
+  .student-material-card {
+    flex-wrap: wrap;
+  }
+
+  .student-material-action {
+    margin-left: 54px;
+  }
+}

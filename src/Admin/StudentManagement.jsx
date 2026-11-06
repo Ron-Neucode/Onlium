@@ -210,12 +210,15 @@ export default function StudentManagement() {
       setApplicationActionLoading(true);
       setApplicationActionError("");
       try {
-        await apiService.approveApplication(selectedApplication.id);
+        const approvalResult = await apiService.approveApplication(selectedApplication.id);
         await loadApplications();
         setApplicationDetails((current) => current
           ? { ...current, status: "Approved", studentIdNumber: null }
           : current);
         setSelectedApplication((current) => current ? { ...current, status: "Approved" } : current);
+        setApplicationActionError(approvalResult.smsAccepted === false
+          ? `Application approved, but the SMS was not accepted: ${approvalResult.smsWarning || "Check the SMS provider configuration."}`
+          : "");
       } catch (err) {
         setApplicationActionError(err.message || "Failed to approve application.");
       } finally {

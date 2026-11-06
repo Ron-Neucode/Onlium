@@ -68,9 +68,13 @@ export default function PaymentVerification() {
     setActionLoading(request.id);
     setActionError("");
     try {
-      if (decision === "approve") await apiService.approvePaymentRequest(request.id);
-      else await apiService.rejectPaymentRequest(request.id, reason.trim());
+      const result = decision === "approve"
+        ? await apiService.approvePaymentRequest(request.id)
+        : await apiService.rejectPaymentRequest(request.id, reason.trim());
       await loadRequests();
+      setActionError(decision === "approve" && result.smsAccepted === false
+        ? `Payment approved and enrollment completed, but the SMS was not accepted: ${result.smsWarning || "Check the SMS provider configuration."}`
+        : "");
     } catch (requestError) {
       setActionError(requestError.message || "Unable to review this payment request.");
     } finally {

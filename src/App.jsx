@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import HomepageUniversity from "./pages/Homepage/HomepageUniversity.jsx";
 import RegisterUniversity from "./pages/Register/RegisterUniversity.jsx";
 import CreateAccount from "./pages/Register/CreateAccount.jsx";
+import InstructorInvitationSetup from "./pages/Register/InstructorInvitationSetup.jsx";
 import Login from "./pages/Register/Login.jsx";
 import ForgotPassword from "./pages/Register/ForgotPassword.jsx";
 import ModeratorLogin from "./pages/Register/ModeratorLogin.jsx";
@@ -25,6 +26,7 @@ import NotificationsStudent from "./pages/Dashboard/NotificationsStudent.jsx";
 import StudyloadStudent from "./pages/Dashboard/StudyloadStudent.jsx";
 import StudentSchoolCalendar from "./pages/Dashboard/StudentSchoolCalendar.jsx";
 import ClassAnnouncements from "./pages/Dashboard/ClassAnnouncements.jsx";
+import ClassMaterialsStudent from "./pages/Dashboard/ClassMaterialsStudent.jsx";
 import EnrollmentLayout from "./pages/Enrollment/EnrollmentLayout.jsx";
 import AdminRoute from "./AdminRoute.jsx";
 import StudentRoute from "./StudentRoute.jsx"; // ✅ add this
@@ -39,6 +41,7 @@ function App() {
         <Route path="/login" element={<ModeratorLogin />} />
         <Route path="/register" element={<RegisterUniversity />} />
         <Route path="/register/create" element={<CreateAccount />} />
+        <Route path="/instructor/accept-invitation" element={<InstructorInvitationSetup />} />
         <Route path="/register/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/register/moderator" element={<ModeratorLogin />} />
@@ -106,6 +109,11 @@ function App() {
         <Route path="/student/announcements" element={
           <StudentRoute>
             <ClassAnnouncements />
+          </StudentRoute>
+        } />
+        <Route path="/student/class-materials" element={
+          <StudentRoute>
+            <ClassMaterialsStudent />
           </StudentRoute>
         } />
         <Route path="/studyload" element={<Navigate to="/student/studyload" replace />} />

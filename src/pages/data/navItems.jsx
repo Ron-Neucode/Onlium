@@ -51,6 +51,16 @@ export const NAV_ITEMS = [
     to: "/student/announcements",
   },
   {
+    label: "Class Materials",
+    icon: (
+      <svg fill="currentColor" viewBox="0 0 20 20">
+        <path fillRule="evenodd" d="M5 2a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7.414A2 2 0 0016.414 6l-3.414-3.414A2 2 0 0011.586 2H5zm6 1.5V7h3.5L11 3.5zM6 10a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+      </svg>
+    ),
+    badge: null,
+    to: "/student/class-materials",
+  },
+  {
     label: "Resources",
     icon: (
       <svg fill="currentColor" viewBox="0 0 20 20">

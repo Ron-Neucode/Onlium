@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { apiService } from "../services/apiService.js";
+import "./styles/InstructorManagement.css";
 
 const cardStyle = {
   background: "#fff",
@@ -10,22 +11,70 @@ const cardStyle = {
 
 export default function InstructorManagement() {
   const [instructors, setInstructors] = useState([]);
+  const [invitations, setInvitations] = useState([]);
+  const [inviteFullName, setInviteFullName] = useState("");
+  const [inviteEmail, setInviteEmail] = useState("");
   const [loading, setLoading] = useState(true);
   const [workingId, setWorkingId] = useState("");
+  const [sendingInvitation, setSendingInvitation] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
   const loadInstructors = useCallback(async () => {
     try {
-      const instructorData = await apiService.getAdminInstructors();
+      const [instructorData, invitationData] = await Promise.all([
+        apiService.getAdminInstructors(),
+        apiService.getAdminInstructorInvitations(),
+      ]);
       setError("");
       setInstructors(instructorData);
+      setInvitations(invitationData);
     } catch (requestError) {
       setError(requestError.message || "Unable to load instructor accounts.");
     } finally {
       setLoading(false);
     }
   }, []);
+
+  async function sendInvitation(event, invitation = null) {
+    event?.preventDefault();
+    const fullName = invitation?.fullName || inviteFullName.trim();
+    const email = invitation?.email || inviteEmail.trim();
+    if (!fullName || !email) {
+      setError("Enter the instructor's name and school email.");
+      return;
+    }
+
+    setError("");
+    setNotice("");
+    setSendingInvitation(true);
+    try {
+      const result = await apiService.sendInstructorInvitation({ fullName, email });
+      setNotice(result.message || `Invitation sent to ${email}.`);
+      setInviteFullName("");
+      setInviteEmail("");
+      await loadInstructors();
+    } catch (requestError) {
+      setError(requestError.message || "Unable to send instructor invitation.");
+    } finally {
+      setSendingInvitation(false);
+    }
+  }
+
+  async function revokeInvitation(invitation) {
+    setError("");
+    setNotice("");
+    setWorkingId(`invitation-${invitation.id}`);
+    try {
+      const result = await apiService.revokeInstructorInvitation(invitation.id);
+      setNotice(result.message || "Instructor invitation revoked.");
+      await loadInstructors();
+    } catch (requestError) {
+      setError(requestError.message || "Unable to revoke invitation.");
+    } finally {
+      setWorkingId("");
+    }
+  }
 
   useEffect(() => {
     // This effect starts the page's asynchronous initial data request.
@@ -61,7 +110,7 @@ export default function InstructorManagement() {
       <header style={{ marginBottom: 20 }}>
         <h1 style={{ margin: 0, fontSize: 24 }}>Instructor Accounts</h1>
         <p style={{ margin: "7px 0 0", color: "#64748b", fontSize: 14, lineHeight: 1.5 }}>
-          Review instructor registrations and manage approved accounts. Instructors cannot edit class schedules; assign them from Sections & Class Schedules.
+          Invite instructors to set their own password, review accounts waiting for approval, and manage active instructors.
         </p>
       </header>
 
@@ -80,6 +129,57 @@ export default function InstructorManagement() {
         <p role="status" style={{ color: "#64748b" }}>Loading instructor accounts…</p>
       ) : (
         <div style={{ display: "grid", gap: 18 }}>
+          <section className="instructor-invite-layout" style={cardStyle}>
+            <form className="instructor-invite-form" onSubmit={event => void sendInvitation(event)}>
+              <h2 style={{ margin: "0 0 6px", fontSize: 17 }}>Invite an instructor</h2>
+              <p style={{ margin: "0 0 14px", color: "#64748b", fontSize: 12, lineHeight: 1.5 }}>
+                We’ll email a one-time setup link. Instructors create their own password; you approve the account after setup.
+              </p>
+              <label style={{ display: "grid", gap: 5, marginBottom: 10, color: "#475569", fontSize: 12, fontWeight: 700 }}>
+                Instructor name
+                <input required maxLength={200} value={inviteFullName} onChange={event => setInviteFullName(event.target.value)} placeholder="Full name" style={{ width: "100%", boxSizing: "border-box", padding: 10, border: "1px solid #cbd5e1", borderRadius: 7, font: "inherit" }} />
+              </label>
+              <label style={{ display: "grid", gap: 5, marginBottom: 13, color: "#475569", fontSize: 12, fontWeight: 700 }}>
+                School email
+                <input required type="email" maxLength={255} value={inviteEmail} onChange={event => setInviteEmail(event.target.value)} placeholder="instructor@school.edu" style={{ width: "100%", boxSizing: "border-box", padding: 10, border: "1px solid #cbd5e1", borderRadius: 7, font: "inherit" }} />
+              </label>
+              <button type="submit" disabled={sendingInvitation} style={{ border: 0, borderRadius: 7, padding: "10px 14px", background: sendingInvitation ? "#94a3b8" : "#1e40af", color: "#fff", fontWeight: 700, cursor: sendingInvitation ? "wait" : "pointer" }}>
+                {sendingInvitation ? "Sending invitation…" : "Send invitation"}
+              </button>
+            </form>
+
+            <div className="instructor-invite-list">
+              <h2 style={{ margin: "0 0 12px", fontSize: 17 }}>
+                Invitations <span style={{ color: "#64748b", fontWeight: 500 }}>({invitations.length})</span>
+              </h2>
+              {invitations.length === 0 ? (
+                <p style={{ color: "#64748b", fontSize: 13 }}>No instructor invitations are waiting for setup.</p>
+              ) : (
+                <div style={{ display: "grid", gap: 8 }}>
+                  {invitations.map(invitation => (
+                    <article key={invitation.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap", border: "1px solid #e2e8f0", borderRadius: 8, padding: 10 }}>
+                      <div>
+                        <strong style={{ fontSize: 13 }}>{invitation.fullName}</strong>
+                        <div style={{ color: "#64748b", fontSize: 12 }}>{invitation.email}</div>
+                        <div style={{ color: invitation.status === "Expired" ? "#b45309" : "#64748b", fontSize: 11, marginTop: 2 }}>
+                          {invitation.status} · expires {new Date(invitation.expiresAt).toLocaleString()}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: 8 }}>
+                        <button type="button" disabled={sendingInvitation || workingId === `invitation-${invitation.id}`} onClick={() => void sendInvitation(null, invitation)} style={{ border: "1px solid #bfdbfe", borderRadius: 6, padding: "6px 9px", background: "#eff6ff", color: "#1d4ed8", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                          {sendingInvitation ? "Sending…" : "Resend"}
+                        </button>
+                        <button type="button" disabled={workingId === `invitation-${invitation.id}`} onClick={() => void revokeInvitation(invitation)} style={{ border: "1px solid #fecaca", borderRadius: 6, padding: "6px 9px", background: "#fff", color: "#b91c1c", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                          Revoke
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+
           <section style={cardStyle}>
             <h2 style={{ margin: "0 0 12px", fontSize: 17 }}>
               Pending approval <span style={{ color: "#64748b", fontWeight: 500 }}>({pending.length})</span>

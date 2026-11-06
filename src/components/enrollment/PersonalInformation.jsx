@@ -81,6 +81,7 @@ export default function PersonalInformation({
   initialDetails,
   initialStudentType = "",
   initialIrregular = "",
+  hasEnrollmentRecord = false,
   studentTypeLocked = false,
 }) {
   const [studentType, setStudentType] = useState(initialStudentType);
@@ -178,13 +179,23 @@ export default function PersonalInformation({
         <div className="enrollment-type-grid" role="group" aria-label="Student type">
           {STUDENT_TYPES.map(type => {
             const selected = studentType === type.key;
+            const typeRequiresEnrollmentRecord = type.key === "continuing";
+            const eligibilityDisallowsType = typeRequiresEnrollmentRecord !== hasEnrollmentRecord;
+            const disabled = !selected && (eligibilityDisallowsType || studentTypeLocked);
+            const disabledReason = eligibilityDisallowsType
+              ? hasEnrollmentRecord
+                ? "Your existing Onlium enrollment record means you must apply as a continuing student."
+                : "Available after you have an official Onlium enrollment record."
+              : studentTypeLocked && !selected
+                ? "Student type cannot be changed after requirements have been uploaded."
+                : "";
             return (
               <button
                 key={type.key}
                 type="button"
                 aria-pressed={selected}
-                disabled={studentTypeLocked && !selected}
-                className={`enrollment-type-card${selected ? " enrollment-type-card--selected" : ""}${studentTypeLocked && !selected ? " enrollment-type-card--disabled" : ""}`}
+                disabled={disabled}
+                className={`enrollment-type-card${selected ? " enrollment-type-card--selected" : ""}${disabled ? " enrollment-type-card--disabled" : ""}`}
                 onClick={() => {
                   setStudentType(type.key);
                   setError("");
@@ -193,6 +204,7 @@ export default function PersonalInformation({
                 <span className="enrollment-type-card__check" aria-hidden="true">{selected ? "✓" : ""}</span>
                 <span className="enrollment-type-card__title">{type.label}</span>
                 <span className="enrollment-type-card__description">{type.description}</span>
+                {disabledReason && <span className="enrollment-type-card__reason">{disabledReason}</span>}
               </button>
             );
           })}

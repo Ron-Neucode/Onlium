@@ -1,0 +1,16 @@
+.instructor-invite-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px;
+}
+
+.instructor-invite-layout input {
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .instructor-invite-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+}

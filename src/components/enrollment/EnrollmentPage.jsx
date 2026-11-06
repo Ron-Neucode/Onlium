@@ -20,7 +20,9 @@ export default function EnrollmentPage({ onScheduleSaved, onGoToStudyLoad }) {
   const navigate = useNavigate();
   const [loadingDraft, setLoadingDraft] = useState(true);
   const [draftError, setDraftError] = useState("");
+  const [preservedDraftNotice, setPreservedDraftNotice] = useState("");
   const [draftLoadAttempt, setDraftLoadAttempt] = useState(0);
+  const [hasEnrollmentRecord, setHasEnrollmentRecord] = useState(false);
   const [step, setStep] = useState(1);
   const [applicant, setApplicant] = useState(null);
   const [program, setProgram] = useState({ programCode: "BSIT", yearLevel: 2, semester: 1 });
@@ -38,9 +40,23 @@ export default function EnrollmentPage({ onScheduleSaved, onGoToStudyLoad }) {
     async function loadDraft() {
       setLoadingDraft(true);
       setDraftError("");
+      setPreservedDraftNotice("");
       try {
-        const applications = await apiService.getMyApplications();
-        const draft = applications.find(application => application.status?.toLowerCase() === "draft");
+        const [applications, eligibility] = await Promise.all([
+          apiService.getMyApplications(),
+          apiService.getMyEnrollmentTypeEligibility(),
+        ]);
+        if (!isCurrent) return;
+        setHasEnrollmentRecord(eligibility.hasEnrollmentRecord);
+
+        const drafts = applications.filter(application => application.status?.toLowerCase() === "draft");
+        const draft = drafts.find(application => eligibility.availableStudentTypes.includes(application.studentType));
+        if (!draft && drafts.length > 0) {
+          setPreservedDraftNotice(
+            "You have an older saved draft for a different student type. It has been left unchanged. You can start a new application using your currently eligible student type."
+          );
+          return;
+        }
         if (!draft || !isCurrent) return;
 
         const studentType = {
@@ -161,11 +177,16 @@ export default function EnrollmentPage({ onScheduleSaved, onGoToStudyLoad }) {
         <StepsBar currentStep={step} studentType={studentType} submitted={submitted} />
       </section>
 
+      {preservedDraftNotice && (
+        <p className="enrollment-draft-notice" role="status">{preservedDraftNotice}</p>
+      )}
+
       {step === 1 && (
         <PersonalInformation
           initialDetails={applicant || undefined}
           initialStudentType={studentType || ""}
           initialIrregular={irregular || ""}
+          hasEnrollmentRecord={hasEnrollmentRecord}
           studentTypeLocked={uploadedRequirements.length > 0}
           onNext={details => {
             if (applicant?.studentType !== details.studentType) setFiles({});

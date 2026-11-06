@@ -28,7 +28,6 @@ async function readApiResponse(response, fallbackMessage) {
 export default function CreateAccount({ onSwitchToLogin }) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [accountType, setAccountType] = useState("Student");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -82,7 +81,7 @@ export default function CreateAccount({ onSwitchToLogin }) {
             firstName,
             lastName,
             password,
-            accountType,
+            accountType: "Student",
           }
         }),
       });
@@ -152,7 +151,7 @@ export default function CreateAccount({ onSwitchToLogin }) {
             firstName,
             lastName,
             password,
-            accountType,
+            accountType: "Student",
           }
         }),
       });
@@ -214,31 +213,9 @@ export default function CreateAccount({ onSwitchToLogin }) {
 
         {!showOtpScreen ? (
           <>
-        <label htmlFor="account-type">Account type</label>
-        <select
-          id="account-type"
-          value={accountType}
-          onChange={(e) => setAccountType(e.target.value)}
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "14px 18px",
-            border: "1.5px solid #eef2ff",
-            borderRadius: 12,
-            fontSize: 15,
-            color: "#0f172a",
-            background: "#fbfdff",
-            marginBottom: 18,
-          }}
-        >
-          <option value="Student">Student</option>
-          <option value="Instructor">Instructor</option>
-        </select>
-        {accountType === "Instructor" && (
-          <p role="status" style={{ color: "#475569", fontSize: 13, margin: "-8px 0 16px", lineHeight: 1.5 }}>
-            Instructor accounts require administrator approval before you can sign in.
-          </p>
-        )}
+        <p role="status" style={{ color: "#475569", fontSize: 13, margin: "0 0 16px", lineHeight: 1.5 }}>
+          Instructor accounts are created by invitation from an Onlium administrator.
+        </p>
         <div className="name-row">
           <div>
             <label>First Name</label>
